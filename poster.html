@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Poster Works | Kai Shen</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Helvetica Neue',Arial,sans-serif;
+}
+
+body{
+
+background:
+radial-gradient(circle at 20% 20%, #151515, #050505);
+
+color:white;
+padding:80px 10%;
+line-height:1.6;
+}
+
+/* TITLE */
+
+h1{
+text-align:center;
+margin-bottom:15px;
+font-size:clamp(28px,5vw,42px);
+letter-spacing:4px;
+text-transform:uppercase;
+font-weight:800;
+}
+
+.subtitle{
+text-align:center;
+color:#777;
+margin-bottom:60px;
+font-size:14px;
+letter-spacing:1px;
+}
+
+/* BACK BUTTON */
+
+.back{
+text-align:center;
+margin-bottom:60px;
+}
+
+.back a{
+
+color:#aaa;
+text-decoration:none;
+border:1px solid #333;
+padding:12px 30px;
+font-size:13px;
+letter-spacing:1px;
+text-transform:uppercase;
+transition:0.35s;
+}
+
+.back a:hover{
+
+background:white;
+color:black;
+border-color:white;
+
+}
+
+/* GRID */
+
+.grid{
+
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+gap:40px;
+
+animation:fadeIn 1s ease forwards;
+
+}
+
+/* ITEM */
+
+.item{
+
+position:relative;
+cursor:pointer;
+overflow:hidden;
+
+}
+
+.item img{
+
+width:100%;
+aspect-ratio:1 / 1.414;
+object-fit:cover;
+background:#1a1a1a;
+border:1px solid #222;
+transition:0.5s;
+
+}
+
+/* HOVER */
+
+.item:hover img{
+
+transform:translateY(-10px) scale(1.03);
+border-color:#555;
+box-shadow:0 20px 40px rgba(0,0,0,0.6);
+
+}
+
+/* OVERLAY */
+
+.overlay{
+
+position:absolute;
+inset:0;
+background:linear-gradient(to top,rgba(0,0,0,0.8),transparent 60%);
+display:flex;
+align-items:flex-end;
+padding:20px;
+opacity:0;
+transition:0.4s;
+
+}
+
+.item:hover .overlay{
+
+opacity:1;
+
+}
+
+.overlay span{
+
+font-size:16px;
+letter-spacing:1px;
+
+}
+
+/* LIGHTBOX */
+
+.lightbox{
+
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.95);
+display:flex;
+align-items:center;
+justify-content:center;
+opacity:0;
+pointer-events:none;
+transition:0.4s;
+
+}
+
+.lightbox img{
+
+max-width:90%;
+max-height:90%;
+box-shadow:0 30px 80px rgba(0,0,0,0.9);
+
+}
+
+.lightbox.active{
+
+opacity:1;
+pointer-events:auto;
+
+}
+
+/* ANIMATION */
+
+@keyframes fadeIn{
+
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+body{padding:60px 5%;}
+.grid{gap:20px;}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Poster Works</h1>
+<p class="subtitle">Graphic Design & Visual Arts Portfolio</p>
+
+<div class="back">
+<a href="index.html">← Back to Home</a>
+</div>
+
+<div class="grid">
+
+<div class="item">
+<img src="https://i.postimg.cc/59PrQ301/ELDEN-RING-3.jpg">
+<div class="overlay"><span></span></div>
+</div>
+
+<div class="item">
+<img src="https://i.postimg.cc/sgWH8C46/typography-ass1-33333333.jpg">
+<div class="overlay"><span></span></div>
+</div>
+
+<div class="item">
+<img src="https://i.postimg.cc/NfSVDqnp/17-01-jpg.jpg">
+<div class="overlay"><span></span></div>
+</div>
+
+<div class="item">
+<img src="https://i.postimg.cc/nzwbts3w/9-01-jpg.jpg">
+<div class="overlay"><span></span></div>
+</div>
+
+<div class="item">
+<img src="https://i.postimg.cc/7619gj2f/5-01-jpg.jpg">
+<div class="overlay"><span></span></div>
+</div>
+
+<div class="item">
+<img src="https://i.postimg.cc/Y98g27gp/4-01-jpg.jpg">
+<div class="overlay"><span></span></div>
+</div>
+
+<div class="item">
+<img src="https://i.postimg.cc/5NNGNL7t/15-01-jpg.jpg">
+<div class="overlay"><span></span></div>
+</div>
+
+<div class="item">
+<img src="https://i.postimg.cc/c4pQ5Nns/12-01-jpg.jpg">
+<div class="overlay"><span></span></div>
+</div>
+
+<div class="item">
+<img src="https://i.postimg.cc/QtDhdmyx/1-01-jpg.jpg">
+<div class="overlay"><span></span></div>
+</div>
+
+<div class="item">
+<img src="https://i.postimg.cc/DwfTcfGS/6-01-jpg.jpg">
+<div class="overlay"><span></span></div>
+</div>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+<img id="lightbox-img">
+</div>
+
+<script>
+
+const items=document.querySelectorAll('.item img');
+const lightbox=document.getElementById('lightbox');
+const lightboxImg=document.getElementById('lightbox-img');
+
+items.forEach(img=>{
+
+img.addEventListener('click',()=>{
+
+lightbox.classList.add('active');
+lightboxImg.src=img.src;
+
+});
+
+});
+
+lightbox.addEventListener('click',()=>{
+
+lightbox.classList.remove('active');
+
+});
+
+</script>
+
+</body>
+</html>

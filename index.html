@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kai Shen | Design Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background: #000; color: white; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+        /* --- 动画定义 --- */
+        @keyframes customFadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 泡泡入场动画：只管缩放和透明度，不要管位移(Translate) */
+        @keyframes bubbleIntro {
+            from { opacity: 0; scale: 0.8; }
+            to { opacity: 1; scale: 1; }
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 30px 8%; z-index: 1000;
+            background: rgba(0,0,0,0.1); backdrop-filter: blur(15px);
+            animation: customFadeUp 0.8s ease forwards;
+        }
+        .logo { font-size: 14px; letter-spacing: 5px; font-weight: 900; color: #fff; text-decoration: none; }
+        nav { display: flex; gap: 25px; }
+        nav a { color: #fff; text-decoration: none; font-size: 11px; font-weight: 700; opacity: 0.5; text-transform: uppercase; transition: 0.3s; }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            position: relative; height: 100vh; height: 100dvh; width: 100%;
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+        }
+
+        .parallax-scene { 
+            position: absolute; 
+            inset: -15%; /* 稍微扩大范围防止移动时露出边缘 */
+            z-index: 1; 
+            pointer-events: none;
+        }
+
+        .bubble {
+            position: absolute; border-radius: 50%; opacity: 0;
+            will-change: transform; /* 提升渲染性能 */
+            animation: bubbleIntro 2s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+            background: radial-gradient(circle at 75% 30%, rgba(255, 255, 255, 0.1), transparent);
+            box-shadow: inset 0 10px 20px rgba(255,255,255,0.1), 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* 泡泡位置设定 */
+        .bubble1 { width: 45vw; height: 45vw; top: 5%; left: -5%; animation-delay: 0.2s; background: radial-gradient(circle at 75% 30%, rgba(255,80,80,0.1), transparent); }
+        .bubble2 { width: 35vw; height: 35vw; bottom: 5%; right: -5%; animation-delay: 0.4s; background: radial-gradient(circle at 75% 30%, rgba(80,80,255,0.1), transparent); }
+        .bubble3 { width: 20vw; height: 20vw; top: 40%; left: 40%; animation-delay: 0.6s; background: radial-gradient(circle at 75% 30%, rgba(80,255,200,0.08), transparent); }
+
+        /* 内容 */
+        .hero-content { position: relative; z-index: 10; text-align: center; }
+        .hero-content h1 { 
+            font-size: clamp(60px, 15vw, 120px); font-weight: 900; line-height: 0.85; letter-spacing: -4px; margin-bottom: 25px;
+            opacity: 0; animation: customFadeUp 1s ease 0.4s forwards; 
+        }
+        .hero-content p { 
+            color: #888; font-size: 16px; margin-bottom: 40px; max-width: 400px; margin-left: auto; margin-right: auto;
+            opacity: 0; animation: customFadeUp 1s ease 0.6s forwards;
+        }
+        .btn-group { 
+            display: flex; gap: 15px; justify-content: center;
+            opacity: 0; animation: customFadeUp 1s ease 0.8s forwards;
+        }
+
+        .btn { padding: 16px 35px; border: 1px solid #fff; color: #fff; text-decoration: none; font-size: 12px; font-weight: 700; letter-spacing: 2px; transition: 0.3s; }
+        .btn.primary { background: #fff; color: #000; }
+        .btn:hover { background: #fff; color: #000; transform: translateY(-3px); }
+
+        /* --- WORK SECTION --- */
+        .work-section { background: #ffffff; color: #000; padding: 140px 8%; position: relative; overflow: hidden; }
+        .work-grid-bg { position: absolute; inset: 0; z-index: 1; pointer-events: none; background-image: linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px); background-size: 40px 40px; }
+        .work-section h2 { font-size: clamp(32px, 8vw, 48px); font-weight: 900; text-align: center; margin-bottom: 100px; position: relative; z-index: 3; }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 80px 50px; position: relative; z-index: 3; }
+
+        .work-item { display: block; text-decoration: none; color: #000; opacity: 0; transform: translateY(40px); transition: 1s cubic-bezier(0.2, 1, 0.3, 1); }
+        .work-item.show { opacity: 1; transform: translateY(0); }
+
+        .img-container { position: relative; width: 100%; aspect-ratio: 16/10; overflow: hidden; background: #eee; margin-bottom: 25px; }
+        .img-container::after { content: ''; position: absolute; inset: 0; transform: translateX(-100%) skewX(-25deg); background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.7), transparent); transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1); }
+        .work-item:hover .img-container::after { transform: translateX(120%) skewX(-25deg); }
+        .work-item img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
+        .work-item:hover img { transform: scale(1.08); }
+        .work-label { font-size: 12px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; text-align: center; display: block; }
+
+        /* --- CONTACT & FOOTER --- */
+        .contact { padding: 150px 8%; text-align: center; background: #000; }
+        .contact h2 { font-size: clamp(40px, 10vw, 70px); font-weight: 900; margin-bottom: 30px; }
+        footer { padding: 50px 8%; text-align: center; border-top: 1px solid #222; font-size: 10px; color: #444; letter-spacing: 2px; }
+
+        @media (max-width: 768px) {
+            header { padding: 25px 6%; }
+            .hero-content h1 { font-size: 85px; }
+            .btn-group { flex-direction: column; align-items: center; }
+            .btn { width: 100%; max-width: 280px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="#" class="logo">KAI SHEN</a>
+    <nav>
+        <a href="#work">Portfolio</a>
+        <a href="https://wa.me/60174769089">Contact</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="parallax-scene" id="scene">
+        <div class="bubble bubble1" data-depth="0.1"></div>
+        <div class="bubble bubble2" data-depth="0.3"></div>
+        <div class="bubble bubble3" data-depth="0.6"></div>
+    </div>
+    <div class="hero-content">
+        <h1>KS<br>PORTFOLIO</h1>
+        <p>Minimalist designer specializing in motion visuals, posters, and modern branding.</p>
+        <div class="btn-group">
+            <a href="#work" class="btn primary" id="btn-work">View Works</a>
+            <a href="https://wa.me/60174769089" class="btn">WhatsApp</a>
+        </div>
+    </div>
+</section>
+
+<section id="work" class="work-section">
+    <div class="work-grid-bg"></div>
+    <h2>Selected Works</h2>
+    <div class="gallery">
+        <a href="#" class="work-item">
+            <div class="img-container"><img src="https://i.postimg.cc/59PrQ301/ELDEN-RING-3.jpg"></div>
+            <span class="work-label">Poster Design</span>
+        </a>
+        <a href="#" class="work-item">
+            <div class="img-container"><img src="https://i.postimg.cc/X7nj26By/ping-mu-jie-tu-2026-03-06-212904.png"></div>
+            <span class="work-label">Animation</span>
+        </a>
+        <a href="#" class="work-item">
+            <div class="img-container"><img src="https://i.postimg.cc/DZzQQMdn/logo-lsss-01.jpg"></div>
+            <span class="work-label">Logo Branding</span>
+        </a>
+    </div>
+</section>
+
+<section class="contact">
+    <h2>Let's Talk</h2>
+    <a href="https://wa.me/60174769089" class="btn">Start a Project</a>
+</section>
+
+<footer>© 2026 KAI SHEN.</footer>
+
+<script>
+    const scene = document.getElementById('scene');
+    const btnWork = document.getElementById('btn-work');
+
+    // 泡泡移动核心函数
+    function moveBubbles(x, y) {
+        const bubbles = scene.querySelectorAll('.bubble');
+        bubbles.forEach(b => {
+            const d = b.getAttribute('data-depth');
+            // 计算移动距离
+            const moveX = x * d * 100; // 这里的100是移动强度
+            const moveY = y * d * 100;
+            // 关键：JS 实时更新 transform
+            b.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+    }
+
+    // 1. 电脑端：鼠标移动 (基于中心点)
+    document.addEventListener('mousemove', (e) => {
+        if (window.innerWidth > 768) {
+            const x = (e.clientX / window.innerWidth - 0.5);
+            const y = (e.clientY / window.innerHeight - 0.5);
+            moveBubbles(x, y);
+        }
+    });
+
+    // 2. 手机端：重力感应 (需要授权)
+    btnWork.addEventListener('click', () => {
+        if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+            DeviceOrientationEvent.requestPermission().then(state => {
+                if (state === 'granted') {
+                    window.addEventListener('deviceorientation', handleOrientation);
+                }
+            });
+        } else {
+            // 非 iOS 设备直接监听
+            window.addEventListener('deviceorientation', handleOrientation);
+        }
+    });
+
+    function handleOrientation(e) {
+        // gamma: 左右倾斜 (-90 到 90)
+        // beta: 前后倾斜 (-180 到 180)
+        const x = e.gamma / 45; // 归一化
+        const y = (e.beta - 40) / 45; // 减去 40 是假设用户握持手机的角度
+        moveBubbles(x, y);
+    }
+
+    // 3. 滚动加载动画
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, idx) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.classList.add('show');
+                }, idx * 150);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.work-item').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

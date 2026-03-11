@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Works | Kai Shen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: white;
+            padding: 80px 8%;
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: clamp(28px, 5vw, 42px);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 50px;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        /* BACK BUTTON */
+        .back {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .back a {
+            color: #aaa;
+            text-decoration: none;
+            border: 1px solid #333;
+            padding: 12px 30px;
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .back a:hover {
+            background: white;
+            color: black;
+            border-color: white;
+        }
+
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        /* VIDEO ITEM */
+        .video-card {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: 0.4s;
+        }
+
+        .video-card:hover {
+            border-color: #4da3ff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(77, 163, 255, 0.1);
+        }
+
+        .thumbnail-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .thumbnail-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.6s;
+            opacity: 0.8;
+        }
+
+        .video-card:hover img {
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        /* PLAY ICON OVERLAY */
+        .thumbnail-wrapper::after {
+            content: '▶';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            color: white;
+            opacity: 0.6;
+            transition: 0.3s;
+        }
+
+        .video-card:hover .thumbnail-wrapper::after {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+
+        .video-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .video-info a {
+            color: #4da3ff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .video-info a:hover {
+            color: white;
+        }
+
+        /* MOBILE */
+        @media(max-width: 768px) {
+            body { padding: 60px 5%; }
+            .grid { gap: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Animation Works</h1>
+    <p class="subtitle">Motion Graphics & Visual Storytelling</p>
+
+    <div class="back">
+        <a href="index.html">← Back to Home</a>
+    </div>
+
+    <div class="grid">
+
+        <div class="video-card">
+            <a href="https://youtu.be/BtfvEaumTNg" target="_blank">
+                <div class="thumbnail-wrapper">
+                    <img src="https://img.youtube.com/vi/BtfvEaumTNg/maxresdefault.jpg" alt="Animation 1">
+                </div>
+            </a>
+            <div class="video-info">
+                <a href="https://youtu.be/BtfvEaumTNg" target="_blank">Watch Animation 1</a>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <a href="https://youtu.be/b26v6-xINYk" target="_blank">
+                <div class="thumbnail-wrapper">
+                    <img src="https://img.youtube.com/vi/b26v6-xINYk/maxresdefault.jpg" alt="Animation 2">
+                </div>
+            </a>
+            <div class="video-info">
+                <a href="https://youtu.be/b26v6-xINYk" target="_blank">Watch Animation 2</a>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <a href="https://youtu.be/7wb344qvuxU" target="_blank">
+                <div class="thumbnail-wrapper">
+                    <img src="https://i.postimg.cc/CL98BKQS/ping-mu-jie-tu-2026-03-06-225131.png" alt="Animation 3">
+                </div>
+            </a>
+            <div class="video-info">
+                <a href="https://youtu.be/7wb344qvuxU" target="_blank">Watch Animation 3</a>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <a href="https://youtu.be/SvqzIXZnLmk" target="_blank">
+                <div class="thumbnail-wrapper">
+                    <img src="https://img.youtube.com/vi/SvqzIXZnLmk/maxresdefault.jpg" alt="Animation 4">
+                </div>
+            </a>
+            <div class="video-info">
+                <a href="https://youtu.be/SvqzIXZnLmk" target="_blank">Watch Animation 4</a>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
